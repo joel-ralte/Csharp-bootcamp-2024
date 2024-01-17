@@ -93,10 +93,10 @@ namespace Project_1
             get { return m_ProdStock; }
             set
             {
-                if (value == 5 || value == 12 || value == 18 || value == 28)
+                if (value > 0)
                     m_ProdStock = value;
                 else
-                    throw new Exception("Stock value must be either 5,12,18 or 28");
+                    throw new Exception("Stock value must be greater than zero");
             }
         }
 
@@ -107,10 +107,10 @@ namespace Project_1
             get { return m_ProdGST; }
             set
             {
-                if (value > 0 && value < 31)
+                if (value == 5 || value == 12 || value == 18 || value == 28)
                     m_ProdGST = value;
                 else
-                    throw new Exception("GST value must be between 1 and 30");
+                    throw new Exception("GST value must be either 5, 12, 18, or 28");
             }
         }
 
@@ -121,10 +121,10 @@ namespace Project_1
             get { return m_ProdDiscount; }
             set
             {
-                if (value >= 0 && value <= 100)
+                if (value >= 1 && value <= 30)
                     m_ProdDiscount = value;
                 else
-                    throw new Exception("Discount value must be between 1 and 100");
+                    throw new Exception("Discount value must be between 1 and 30");
             }
         }
 
