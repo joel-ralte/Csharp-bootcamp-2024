@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Project_1
 {
@@ -10,8 +11,8 @@ namespace Project_1
     {
         public static void Main(string[] args)
         {
-            Product prod = new Product();
             string userInput;
+            List<Product> products = new List<Product>();
 
             do
             {
@@ -26,6 +27,8 @@ namespace Project_1
                 switch (userInput)
                 {
                     case "1":
+                        Product prod = new Product();
+                    
                         Console.Write("Enter Product Id: ");
                         prod.ProdId = Convert.ToInt32(Console.ReadLine());
 
@@ -50,14 +53,18 @@ namespace Project_1
                         Console.Write("Enter Product Discount: ");
                         prod.ProdDiscount = Convert.ToInt32(Console.ReadLine());
 
+                        products.Add(prod);
                         break;
 
                     case "2":
-                        Console.WriteLine(prod.Display());
+                        foreach (Product product in products)
+                        {
+                            Console.WriteLine(product.Display());
+                        }
                         break;
 
                     case "3":
-                        Console.WriteLine("You selected Option 3.");
+                        Console.WriteLine("Exiting..");
                         break;
 
                     default:
@@ -67,6 +74,5 @@ namespace Project_1
 
             } while (userInput != "3");
         }
-
     }
 }
