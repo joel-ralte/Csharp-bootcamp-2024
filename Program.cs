@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Project_1
 {
@@ -12,8 +8,8 @@ namespace Project_1
         public static void Main(string[] args)
         {
             string userInput;
-            int ProdCount, FindInput;
-            Product[] products = null;
+            int FindInput;
+            Dictionary<int, Product> products = new Dictionary<int, Product>();
 
             do
             {
@@ -21,7 +17,8 @@ namespace Project_1
                 Console.WriteLine("1. Add");
                 Console.WriteLine("2. Display");
                 Console.WriteLine("3. Find");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Delete");
+                Console.WriteLine("5. Exit");
 
                 Console.Write("Enter your choice: ");
                 userInput = Console.ReadLine();
@@ -29,46 +26,55 @@ namespace Project_1
                 switch (userInput)
                 {
                     case "1":
-                        Console.WriteLine("How many products?: ");
-                        ProdCount = Convert.ToInt32(Console.ReadLine());
-                        products = new Product[ProdCount];
-
-                        for(int i = 0; i < ProdCount; i++)
+                        do
                         {
-                            Product prod = new Product();
+                            Console.WriteLine("Enter Product Id: ");
+                            int prodId = Convert.ToInt32(Console.ReadLine());
 
-                            Console.Write("Enter Product Id: ");
-                            prod.ProdId = Convert.ToInt32(Console.ReadLine());
+                            if (!products.ContainsKey(prodId))
+                            {
+                                Product prod = new Product();
+                                prod.ProdId = prodId;
 
-                            Console.Write("Enter Product Name: ");
-                            prod.ProdName = Console.ReadLine();
+                                Console.Write("Enter Product Name: ");
+                                prod.ProdName = Console.ReadLine();
 
-                            Console.Write("Enter Product MfgDate: ");
-                            prod.ProdMfgDate = Convert.ToDateTime(Console.ReadLine());
+                                Console.Write("Enter Product MfgDate: ");
+                                prod.ProdMfgDate = Convert.ToDateTime(Console.ReadLine());
 
-                            Console.Write("Enter Product Warranty: ");
-                            prod.ProdWarranty = Console.ReadLine();
+                                Console.Write("Enter Product Warranty: ");
+                                prod.ProdWarranty = Console.ReadLine();
 
-                            Console.Write("Enter Product Price: ");
-                            prod.ProdPrice = Convert.ToDouble(Console.ReadLine());
+                                Console.Write("Enter Product Price: ");
+                                prod.ProdPrice = Convert.ToDouble(Console.ReadLine());
 
-                            Console.Write("Enter Product Stock: ");
-                            prod.ProdStock = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter Product Stock: ");
+                                prod.ProdStock = Convert.ToInt32(Console.ReadLine());
 
-                            Console.Write("Enter Product GST: ");
-                            prod.ProdGST = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter Product GST: ");
+                                prod.ProdGST = Convert.ToInt32(Console.ReadLine());
 
-                            Console.Write("Enter Product Discount: ");
-                            prod.ProdDiscount = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter Product Discount: ");
+                                prod.ProdDiscount = Convert.ToInt32(Console.ReadLine());
 
-                            products[i] = prod;
-                        }
+                                products.Add(prodId, prod);
+                                Console.WriteLine("Product added successfully.");
+
+                                Console.Write("Do you want to add another product? (yes/no): ");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Product with the same ID already exists. Choose a different ID.");
+                                Console.Write("Do you want to add another product with a different ID? (yes/no): ");
+                            }
+
+                        } while (Console.ReadLine().ToLower() == "yes");
                         break;
 
                     case "2":
-                        foreach (Product product in products)
+                        foreach (var kvp in products)
                         {
-                            Console.WriteLine(product.Display());
+                            Console.WriteLine(kvp.Value.Display());
                         }
                         break;
 
@@ -76,37 +82,37 @@ namespace Project_1
                         Console.WriteLine("Enter Product ID: ");
                         FindInput = Convert.ToInt32(Console.ReadLine());
 
-                        if (products != null)
+                        if (products.ContainsKey(FindInput))
                         {
-                            bool found = false;
-                            foreach (Product product in products)
-                            {
-                                if (product.ProdId == FindInput)
-                                {
-                                    Console.WriteLine(product.Display());
-                                    found = true;
-                                    break;
-                                }
-                            }
-
-                            if (!found)
-                            {
-                                Console.WriteLine("Not found");
-                            }
+                            Console.WriteLine(products[FindInput].Display());
                         }
                         else
                         {
-                            Console.WriteLine("No products added yet. Please add products first.");
+                            Console.WriteLine("Not found");
                         }
                         break;
 
+                    case "4":
+                        Console.WriteLine("Enter Product ID to delete: ");
+                        int deleteInput = Convert.ToInt32(Console.ReadLine());
+
+                        if (products.ContainsKey(deleteInput))
+                        {
+                            products.Remove(deleteInput);
+                            Console.WriteLine("Product deleted successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Product not found. Unable to delete.");
+                        }
+                        break;
 
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
 
-            } while (userInput != "4");
+            } while (userInput != "5");
         }
     }
 }
